@@ -3,17 +3,17 @@
 // Found this function on this site -> https://www.w3schools.com/js/js_random.asp
 // Checked to see if the an object is passed @ random and it works.
 
-function getRandomQuote(min, max)
+function getRandomQuote()
   {
-    min = Math.ceil(0); //sets the minimum value
-    max = Math.floor(4);  //sets the upper value
-    var randomNumber = Math.floor(Math.random() * (4 - 0 + 1)) + min; //includes the numbers[0,1,2,3,4]
+    let min = Math.ceil(0); //sets the minimum value
+    let max = Math.floor(4);  //sets the upper value
+    var randomNumber = Math.floor(Math.random() * (max - 0 + 1)) + min; //includes the numbers[0,1,2,3,4]
     return quotes[randomNumber];  //returns the quote that corresponds to that index in the object
   }
 
 // print function similar to what we have been using in the course
 function printQuote(message)
-  {
+      {
     var quoteToPage = getRandomQuote(); //sets quoteToPage eual to the getRandomQuote function and stores that indexed value of the object
     randomColor(); //calls the function randomColor below, which changes the background color and prints out a new quote
 
@@ -21,17 +21,25 @@ function printQuote(message)
     //Country of origin of the author of the quote, and a cool fact about the author from wiki.
     var message = '<p class = "quote"> ' + quoteToPage.quote + ' </p>';
         message += '<p class = "source"> ' + quoteToPage.author;
-        message += '<span class="citation"> ' + quoteToPage.citation + '</span>';
-        message += '<span class="year"> ' + quoteToPage.year + '</span>';
-        message += '<span class="country"> ' + quoteToPage.country + '</span>';
-        message += '<span class="wiki"> ' + quoteToPage.wiki + '</span></p>';
+        if(quoteToPage.citation) {
+          message += '<span class="citation"> ' + quoteToPage.citation + '</span>';
+        }
+        if(quoteToPage.year) {
+          message += '<span class="year"> ' + quoteToPage.year + '</span>';
+        }
+        if(quoteToPage.country) {
+          message += '<span class="country"> ' + quoteToPage.country + '</span>';
+        }
+        if(quoteToPage.wiki) {
+          message += '<span class="wiki"> ' + quoteToPage.wiki + '</span>';
+        }
+        message += '</p>';
 
+        var div = document.getElementById('quote-box');   // Where the message is sent to within the html file/structures the page.
+          div.innerHTML = message;
 
-    var div = document.getElementById('quote-box');   // Where the message is sent to within the html file/structures the page.
-    div.innerHTML = message;
-
-    return message; // returns the message each time the print quote is called.
-  }
+        return message; // returns the message each time the print quote is called.
+      }
 
   //This function cycles through the colors that I have chosen. It chooses a random number and populates the backgroynd color to the css page.
   function randomColor() {
@@ -42,14 +50,15 @@ function printQuote(message)
     document.body.style.backgroundColor = selectedColor; //formats the css file styles.css
   }
   //this function was taken from the mozilla link provided, calls the function myCallback every 10 seconds
-  var intervalID = window.setInterval(myCallback, 10000);
+  var intervalID = window.setInterval(printQuote, 10000);
 
   /*function myCallback is called, that function calls the printQuote function which in turns calls the randomColor function and populates
   the css and message to the page.
-  */
+
   function myCallback() {
   printQuote();  // Your code here
   }
+  */
 
   printQuote(); //starts the page on initial load
 
